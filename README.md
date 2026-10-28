@@ -150,26 +150,3 @@ For a meaningful CPU/GPU comparison:
 5. Compare median and variability, and inspect raw logs for failures or missing metrics.
 6. For deeper latency analysis, separate **model loading**, **prefill**, **time to first token**, and **decode** instead of relying only on subprocess wall time.
 7. When comparing quantization formats, additionally evaluate **output quality** on a fixed task set.
-
-## Limitations
-
-- CUDA offloading requires a supported NVIDIA GPU and a successful CUDA build.
-- Requested `-ngl` does not prove how many layers were actually placed on the GPU; inspect runtime logs.
-- GPU-memory delta is a device-wide estimate and is unreliable on shared GPUs.
-- RSS sampling is approximate and may undercount short-lived memory peaks.
-- The captured throughput values are missing because the timing parser returned `None`.
-- The default example uses only a small Q8_0 model; the captured run **does not** establish a quantization comparison.
-- The notebook does not measure power consumption, energy efficiency, answer quality, or multi-user serving throughput.
-
-## Further work
-
-- Fix and validate timing extraction for the exact llama.cpp revision.
-- Add explicit warmup runs and detailed environment metadata.
-- Benchmark Q4_K_M, Q8_0, and F16 variants of the **same** model.
-- Sweep `-ngl` values to locate CPU/GPU performance–memory tradeoffs.
-- Add Nsight Systems/Compute profiling and PCIe transfer analysis.
-- Separate prefill, TTFT, and decode timing in a controlled harness.
-
-## Acknowledgments
-
-Built around the open-source [llama.cpp project](https://github.com/ggml-org/llama.cpp). The default example model is provided by the Qwen project; respect the model's applicable license and distribution terms.
